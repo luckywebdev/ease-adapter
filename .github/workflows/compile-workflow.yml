@@ -1,0 +1,24 @@
+name: compile-workflow
+on: [pull_request]
+jobs:
+  compile-job:
+    runs-on: ubuntu-latest
+    env:
+      MNEMONIC: ${{ secrets.MNEMONIC }}
+      RINKEBY_PRIVATE_KEY1: ${{ secrets.RINKEBY_PRIVATE_KEY1 }}
+      RINKEBY_PRIVATE_KEY2: ${{ secrets.RINKEBY_PRIVATE_KEY2 }}
+      RINKEBY_PRIVATE_KEY3: ${{ secrets.RINKEBY_PRIVATE_KEY3 }}
+      RINKEBY_PRIVATE_KEY4: ${{ secrets.RINKEBY_PRIVATE_KEY4 }}
+      MAINNET_PRIVATE_KEY: ${{ secrets.MAINNET_PRIVATE_KEY }}
+      MAINNET_URL_ALCHEMY: ${{ secrets.MAINNET_URL_ALCHEMY }}
+      INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+      FORKING: ${{ secrets.FORKING }}
+      BLOCK_NUMBER: ${{ secrets.BLOCK_NUMBER }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - run: npm install --save-dev
+      - run: npm run compile
+      - run: npm run test
